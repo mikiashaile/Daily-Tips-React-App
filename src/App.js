@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
+const skills = [
+  {skillName: 'Typescript', stars: '⭐⭐⭐⭐⭐', bgColor: 'red'},
+  {skillName: 'Angular', stars: '⭐⭐⭐⭐⭐', bgColor: 'blue'},
+  {skillName: 'Java', stars: '⭐⭐⭐', bgColor: 'purple'},
+  {skillName: 'React', stars: '⭐⭐⭐⭐', bgColor: 'green'}
+]
 
 export default function App() {
   const [advice, setAdvice] = useState("");
   const [count, setCount] = useState(0);
-
+  
   async function getAdvice() {
     const res = await fetch("https://api.adviceslip.com/advice");
     const data = await res.json();
@@ -54,16 +60,13 @@ function Intro() {
 
 function SkillList() {
   return <div className="skill-list">
-    <Skill skillName="Typescript" emoji="⭐⭐⭐⭐⭐" bgColor="red" color="white"/>
-    <Skill skillName="Angular" emoji="⭐⭐⭐⭐⭐" bgColor="blue" color="white"/>
-    <Skill skillName="React" emoji="⭐⭐⭐" bgColor="purple" color="white"/>
-    <Skill skillName="Java" emoji="⭐⭐⭐" bgColor="purple" color="white"/>
-  </div>;
+    {skills.map((sk) => <Skill skillName={sk.skillName} bgColor={sk.bgColor} stars={sk.stars}/>)}
+  </div>
 }
 
 function Skill(props) {
   return <div style={{backgroundColor: props.bgColor}}>
-    <span style={{color: props.color}}>{props.skillName} </span>
-    <span>{props.emoji}</span>
+    <span style={{color: 'white'}}>{props.skillName} </span>
+    <span>{props.stars}</span>
   </div>
 }
