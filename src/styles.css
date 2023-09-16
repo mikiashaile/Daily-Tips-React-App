@@ -26,6 +26,10 @@ h1 {
   display: block;
 }
 
+.wide {
+  width: 800px;
+}
+
 .avatar {
   width: 100%;
   display: block;

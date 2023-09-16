@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import FlashCard from "./FlashCard";
 const skills = [
   {skillName: 'Typescript', stars: '⭐⭐⭐⭐⭐', bgColor: 'red'},
   {skillName: 'Angular', stars: '⭐⭐⭐⭐⭐', bgColor: 'blue'},
@@ -9,6 +10,7 @@ const skills = [
 export default function App() {
   const [advice, setAdvice] = useState("");
   const [count, setCount] = useState(0);
+  const [sectionType, setSectionType] = useState('profile');
   
   async function getAdvice() {
     const res = await fetch("https://api.adviceslip.com/advice");
@@ -17,23 +19,34 @@ export default function App() {
     setCount((c) => c + 1);
   }
 
+  function getSection() {
+    const newSection = sectionType === 'profile' ? 'flashCard' : 'profile';
+    setSectionType(newSection);
+  }
+
   useEffect(function () {
     getAdvice();
   }, []);
 
   return (
-    <div className="card">
+    <div className={sectionType === 'profile' ? 'card' : 'card wide'}>
       <h1>{advice}</h1>
       <button onClick={getAdvice} disabled={count >= 10}>
         Get Advice
       </button>
+      <button onClick={getSection} style={{margin: '20px'}}>
+        Toggle Section
+      </button>
       <DisplayMessage count={count}/>
-
-      <Avatar />
-      <div className="data">
-        <Intro />
-        <SkillList />
-      </div>
+      {sectionType === 'profile' ? (
+        <>
+        <Avatar />
+        <div className="data">
+          <Intro />
+          <SkillList />
+        </div>
+        </>
+      ) : (<FlashCard />)}
     </div>
   );
 }
@@ -60,7 +73,7 @@ function Intro() {
 
 function SkillList() {
   return <div className="skill-list">
-    {skills.map((sk) => <Skill skillName={sk.skillName} bgColor={sk.bgColor} stars={sk.stars}/>)}
+    {skills.map((sk) => <Skill skillName={sk.skillName} bgColor={sk.bgColor} stars={sk.stars} key={sk.skillName}/>)}
   </div>
 }
 
