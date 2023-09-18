@@ -1,11 +1,30 @@
 import { useEffect, useState } from "react";
 import FlashCard from "./FlashCard";
+import Accordion from "./Accordion";
 const skills = [
   {skillName: 'Typescript', stars: '⭐⭐⭐⭐⭐', bgColor: 'red'},
   {skillName: 'Angular', stars: '⭐⭐⭐⭐⭐', bgColor: 'blue'},
   {skillName: 'Java', stars: '⭐⭐⭐', bgColor: 'purple'},
   {skillName: 'React', stars: '⭐⭐⭐⭐', bgColor: 'green'}
 ]
+
+const accrodionData = [
+  {
+    title: "Where are these chairs assembled?",
+    text:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium, quaerat temporibus quas dolore provident nisi ut aliquid ratione beatae sequi aspernatur veniam repellendus."
+  },
+  {
+    title: "How long do I have to return my chair?",
+    text:
+      "Pariatur recusandae dignissimos fuga voluptas unde optio nesciunt commodi beatae, explicabo natus."
+  },
+  {
+    title: "Do you ship to countries outside the EU?",
+    text:
+      "Excepturi velit laborum, perspiciatis nemo perferendis reiciendis aliquam possimus dolor sed! Dolore laborum ducimus veritatis facere molestias!"
+  }
+];
 
 export default function App() {
   const [advice, setAdvice] = useState("");
@@ -19,9 +38,8 @@ export default function App() {
     setCount((c) => c + 1);
   }
 
-  function getSection() {
-    const newSection = sectionType === 'profile' ? 'flashCard' : 'profile';
-    setSectionType(newSection);
+  function getSection(section) {
+    setSectionType(section);
   }
 
   useEffect(function () {
@@ -29,15 +47,25 @@ export default function App() {
   }, []);
 
   return (
-    <div className={sectionType === 'profile' ? 'card' : 'card wide'}>
+    <>
+    <div class="wide">
+      <button onClick={()=>getSection('profile')} style={{margin: '20px'}}>
+        Profile
+      </button>
+      <button onClick={()=>getSection('flashCard')} style={{margin: '20px'}}>
+        Flash Cards
+      </button>
+      <button onClick={()=>getSection('accordion')} style={{margin: '20px'}}>
+        Accordion
+      </button>
+    </div>
+
+      <div className={sectionType === 'profile' ? 'card' : 'card wide'}>
       <h1>{advice}</h1>
-      <button onClick={getAdvice} disabled={count >= 10}>
+      <DisplayMessage count={count}/>
+      <button onClick={getAdvice} className="advice" disabled={count >= 10}>
         Get Advice
       </button>
-      <button onClick={getSection} style={{margin: '20px'}}>
-        Toggle Section
-      </button>
-      <DisplayMessage count={count}/>
       {sectionType === 'profile' ? (
         <>
         <Avatar />
@@ -46,8 +74,10 @@ export default function App() {
           <SkillList />
         </div>
         </>
-      ) : (<FlashCard />)}
+      ) : sectionType === 'flashCard' ? (<FlashCard />) : 
+      (<Accordion data={accrodionData}/>)}
     </div>
+    </>
   );
 }
 
