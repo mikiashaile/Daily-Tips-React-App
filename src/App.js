@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FlashCard from "./FlashCard";
 import Accordion from "./Accordion";
+import TipCalc from "./TipCalculator"
 const skills = [
   {skillName: 'Typescript', stars: '⭐⭐⭐⭐⭐', bgColor: 'red'},
   {skillName: 'Angular', stars: '⭐⭐⭐⭐⭐', bgColor: 'blue'},
@@ -58,6 +59,9 @@ export default function App() {
       <button onClick={()=>getSection('accordion')} style={{margin: '20px'}}>
         Accordion
       </button>
+      <button onClick={()=>getSection('tip')} style={{margin: '20px'}}>
+        Tip Calculator
+      </button>
     </div>
 
       <div className={sectionType === 'profile' ? 'card' : 'card wide'}>
@@ -75,7 +79,8 @@ export default function App() {
         </div>
         </>
       ) : sectionType === 'flashCard' ? (<FlashCard />) : 
-      (<Accordion data={accrodionData}/>)}
+      sectionType === 'accordion' ? (<Accordion data={accrodionData}/>) : 
+      (<TipCalc />)}
     </div>
     </>
   );

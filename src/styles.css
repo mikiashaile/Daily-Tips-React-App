@@ -71,3 +71,12 @@ button {
 .advice {
   background-color: #088431;
 }
+
+.tip-input {
+  display: block;
+  margin: 20px;
+}
+
+.input {
+  width: 200px;
+}
